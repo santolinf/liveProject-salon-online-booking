@@ -1,0 +1,8 @@
+const FIVE_SECONDS = 5 * 1000,
+  TEN_SECONDS = 10 * 1000
+;
+
+export {
+  FIVE_SECONDS,
+  TEN_SECONDS
+};

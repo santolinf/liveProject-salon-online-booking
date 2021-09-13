@@ -5,33 +5,34 @@ export default function ChooseService () {
   const [services, setServices] = useState([]);
 
   useEffect(() => {
+    messageService.showLoadingIndicator();
     fetchWithProgress(process.env.REACT_APP_API_ROOT + "/services/retrieveAvailableSalonServices")
       .then(data => setServices(data))
       .catch(error => messageService.sendErrorNotification('Failed to retrieve services. Please try later.'))
+      .finally(() => messageService.hideLoadingIndicator())
     ;
   }, []);
 
   return (
-    <div className="container-md">
-      <div className="row row-cols-1 row-cols-md-3">
-        { services.map(s => (
-          <div key={s.id} className="col g-4">
-            <div className="card h-100" style={{width: '20em'}}>
-              <div className="card-header lead"><strong>{s.name}</strong></div>
-              <div className="card-body">
-                <div className="card-title"><h2>${s.price}</h2></div>
-                <div className="card-text">
-                  <div>{s.description}</div>
-                  <div>{s.timeInMinutes} Minutes</div>
-                </div>
-                <div>
-                  <button className="btn btn-outline-primary w-100">Book Now</button>
-                </div>
-              </div>
+    <div className="grid-container row">
+      { services.length === 0 && <div>No Services Loaded!</div> }
+      { services.map(s => (
+        <div key={s.id} className="card p-0 mb-4 shadow-sm">
+          <div className="card-header">
+            <h4 className="my-0 font-weight-normal">{s.name}</h4>
+          </div>
+          <div className="card-body">
+            <div className="card-title"><h1>${s.price}</h1></div>
+            <ul className="card-text list-unstyled mt-3 mb-4">
+              <li>{s.description}</li>
+              <li>{s.timeInMinutes} Minutes</li>
+            </ul>
+            <div>
+              <button className="btn btn-outline-primary w-100">Book Now</button>
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 }
