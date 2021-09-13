@@ -1,21 +1,30 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect, Fragment} from 'react';
 import { messageService } from '../_services';
 
 export default function LoadingIndicator() {
-  const [percentageComplete, setPercentageComplete] = useState(0);
+  const [percentageComplete, setPercentageComplete] = useState(0),
+    [showLoading, setShowLoading] = useState(false);
 
   useEffect(() => {
-    const subscription = messageService.getPercentageComplete().subscribe(pc => setPercentageComplete(pc));
+    const pcSubscription = messageService.getPercentageComplete().subscribe(pc => setPercentageComplete(pc)),
+      showSubscription = messageService.getLoadingIndicator().subscribe(value => setShowLoading(value));
 
-    return () => subscription.unsubscribe();
+    return () => {
+      pcSubscription.unsubscribe();
+      showSubscription.unsubscribe();
+    }
   }, []);
 
   return (
-    <div className="LoadingIndicator position-relative top-0 progress">
-      <div className={"progress-bar w-" + percentageComplete} role="progressbar"
-           aria-valuenow={percentageComplete} aria-valuemin="0" aria-valuemax="100">
-        Services {percentageComplete}% loaded
-      </div>
-    </div>
+    <Fragment>
+      { showLoading &&
+        <div className="LoadingIndicator progress">
+          <div className={"progress-bar w-" + percentageComplete} role="progressbar"
+               aria-valuenow={percentageComplete} aria-valuemin="0" aria-valuemax="100">
+            {percentageComplete}%
+          </div>
+        </div>
+      }
+    </Fragment>
   );
 };

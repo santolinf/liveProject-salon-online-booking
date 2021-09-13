@@ -1,19 +1,26 @@
-import { useEffect, useState } from 'react';
-import { messageService, SUCCESS, FAILURE } from '../_services';
+import { Fragment, useEffect, useState } from 'react';
+import { messageService, SUCCESS, FAILURE, doAfterDelay } from '../_services';
 
 export default function AppNotificationComponent() {
 
   const [notification, setNotification] = useState({}),
     { type, message } = notification;
 
+  function reset () {
+    setNotification({});
+  }
+
   useEffect(() => {
-    const subscription = messageService.getNotifications().subscribe(notification => setNotification(notification));
+    const subscription = messageService.getNotifications().subscribe(notification => {
+      setNotification(notification);
+      doAfterDelay(reset);
+    });
 
     return () => subscription.unsubscribe();
   });
 
   return (
-    <div>
+    <Fragment>
       {SUCCESS === type && <div className="alert alert-success d-flex align-items-center" role="alert">
         <div>
           {message}
@@ -24,6 +31,6 @@ export default function AppNotificationComponent() {
            {message}
         </div>
       </div>}
-    </div>
+    </Fragment>
   );
 };
