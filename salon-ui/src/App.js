@@ -1,7 +1,9 @@
+import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import LoadingIndicator from './component/LoadingIndicator';
 import AppNotificationComponent from './component/AppNotificationComponent';
 import ChooseService from './component/ChooseService';
+import ChooseSlot from './component/ChooseSlot';
 
 function App() {
   return (
@@ -17,7 +19,14 @@ function App() {
           <LoadingIndicator/>
         </div>
         <div className="padding-container">
-          <ChooseService/>
+          <Switch>
+            <Route path="/chooseslot/:serviceId/:serviceName">
+              <ChooseSlot/>
+            </Route>
+            <Route path="/">
+              <ChooseService/>
+            </Route>
+          </Switch>
         </div>
         <AppNotificationComponent/>
       </main>

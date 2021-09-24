@@ -21,7 +21,7 @@ export async function fetchWithProgress (url) {
     const { done, value } = await reader.read();
 
     if (done) {
-      messageService.sendPercentageComplete(complete);
+      messageService.sendPercentageComplete(receivedLength === 0  ? 0 : complete);
       break;
     }
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { messageService, fetchWithProgress } from '../_services';
 
 export default function ChooseService () {
@@ -28,7 +29,7 @@ export default function ChooseService () {
               <li>{s.timeInMinutes} Minutes</li>
             </ul>
             <div>
-              <button className="btn btn-outline-primary w-100">Book Now</button>
+              <Link to={`/chooseslot/${s.id}/${s.name}`} className="btn btn-outline-primary w-100">Book Now</Link>
             </div>
           </div>
         </div>
