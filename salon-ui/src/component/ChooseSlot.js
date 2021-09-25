@@ -30,7 +30,7 @@ export default function ChooseSlot () {
     ;
   }
 
-  const onError = errors => console.dir(errors);
+  const onError = errors => messageService.sendErrorNotification(errors?.selectedSlotDate?.message);
 
   return (
     <div className="container" style={{backgroundColor: 'none'}}>
@@ -41,7 +41,10 @@ export default function ChooseSlot () {
             <input type="hidden" {...register('serviceId')} />
           </div>
           <div className="col">
-            <input type="date" min={todaysDate} {...register('selectedSlotDate')} />
+            <input type="date" {...register('selectedSlotDate', {
+              min: { value: todaysDate, message: `Date must be ${todaysDate} or later` },
+              required: { value: true, message: 'Date is required' }
+            })} />
           </div>
           <div className="col">
             <input type="submit" className="btn btn-primary" value="Show Slots" />
@@ -57,7 +60,7 @@ export default function ChooseSlot () {
             </div>
           </div>
           <div className="grid-container row">
-            {slotsData.slots.map(s => (
+            {slotsData.slots.filter(s => moment(s.slotFor).isSameOrAfter(moment.now())).map(s => (
               <div key={s.id} className="card p-0 mb-4 shadow-sm">
                 <div className="card-header">
                   <h4 className="my-0 font-weight-normal">{serviceName}</h4>

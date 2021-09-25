@@ -19,6 +19,7 @@ function App() {
           <LoadingIndicator/>
         </div>
         <div className="padding-container">
+          <AppNotificationComponent/>
           <Switch>
             <Route path="/chooseslot/:serviceId/:serviceName">
               <ChooseSlot/>
@@ -28,7 +29,6 @@ function App() {
             </Route>
           </Switch>
         </div>
-        <AppNotificationComponent/>
       </main>
       <footer/>
     </div>
