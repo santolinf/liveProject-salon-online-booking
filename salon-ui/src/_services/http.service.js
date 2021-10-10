@@ -6,8 +6,8 @@ import { messageService } from '.';
 
 const complete = 100;
 
-export async function fetchWithProgress (url) {
-  let response = await fetch(url);
+async function _fetchWithProgress (url, init = {}) {
+  let response = await fetch(url, init);
 
   const reader = response.body.getReader();
 
@@ -44,4 +44,24 @@ export async function fetchWithProgress (url) {
   let result = new TextDecoder('utf-8').decode(allChunks);
 
   return JSON.parse(result);
+}
+
+export function fetchWithProgress (url) {
+  return _fetchWithProgress(url);
+}
+
+export function postWithProgress (url, data = {}) {
+  return _fetchWithProgress(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+}
+
+export function putWithProgress (url, data = {}) {
+  return _fetchWithProgress(url, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
 }

@@ -18,10 +18,10 @@ export default function ChooseSlot () {
     setValue('selectedSlotDate', todayDateAs_yyyy_MM_dd());
   }, [serviceId, setValue]);
 
-  const onSubmit = values => {
+  const onSubmit = data => {
     messageService.showLoadingIndicator();
-    fetchWithProgress(process.env.REACT_APP_API_ROOT + '/services/retrieveAvailableSlots/' + serviceId + '/' + values.selectedSlotDate)
-      .then(slots => setSlotsData({ selectedSlotDate: values.selectedSlotDate, slots }))
+    fetchWithProgress(process.env.REACT_APP_API_ROOT + '/services/retrieveAvailableSlots/' + serviceId + '/' + data.selectedSlotDate)
+      .then(slots => setSlotsData({ selectedSlotDate: data.selectedSlotDate, slots }))
       .catch(error => {
         setSlotsData({});
         messageService.sendErrorNotification('Failed to retrieve slots. Please try later.')
@@ -71,7 +71,7 @@ export default function ChooseSlot () {
                     <li>Slot Time {moment(s.slotFor).format('hh:mm A')}</li>
                   </ul>
                   <div>
-                    <Link to="" className="btn btn-outline-primary w-100">Book this Slot</Link>
+                    <Link to={`/makepayment/${s.id}/${serviceId}/${serviceName}`} className="btn btn-outline-primary w-100">Book this Slot</Link>
                   </div>
                 </div>
               </div>
