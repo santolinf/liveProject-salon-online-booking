@@ -4,6 +4,7 @@ import LoadingIndicator from './component/LoadingIndicator';
 import AppNotificationComponent from './component/AppNotificationComponent';
 import ChooseService from './component/ChooseService';
 import ChooseSlot from './component/ChooseSlot';
+import PaymentContainer from './component/PaymentContainer';
 
 function App() {
   return (
@@ -23,6 +24,9 @@ function App() {
           <Switch>
             <Route path="/chooseslot/:serviceId/:serviceName">
               <ChooseSlot/>
+            </Route>
+            <Route path="/makepayment/:slotId/:serviceId/:serviceName">
+              <PaymentContainer/>
             </Route>
             <Route path="/">
               <ChooseService/>
