@@ -5,6 +5,7 @@ import AppNotificationComponent from './component/AppNotificationComponent';
 import ChooseService from './component/ChooseService';
 import ChooseSlot from './component/ChooseSlot';
 import PaymentContainer from './component/PaymentContainer';
+import VerifyUser from './component/VerifyUser';
 
 function App() {
   return (
@@ -27,6 +28,9 @@ function App() {
             </Route>
             <Route path="/makepayment/:slotId/:serviceId/:serviceName">
               <PaymentContainer/>
+            </Route>
+            <Route path="/admin/verifyuser">
+              <VerifyUser/>
             </Route>
             <Route path="/">
               <ChooseService/>
